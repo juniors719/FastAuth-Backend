@@ -13,12 +13,16 @@ class User {
       throw new Error("Todos os campos são obrigatórios.");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await this.hashPassword(password);
     return new User(name, email, hashedPassword);
   }
 
   async comparePassword(password) {
     return bcrypt.compare(password, this.password);
+  }
+
+  static async hashPassword(password) {
+    return bcrypt.hash(password, 8);
   }
 }
 

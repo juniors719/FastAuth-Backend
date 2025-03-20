@@ -25,6 +25,24 @@ class AuthRepository {
     return this.queryAuth(sql, [user.name, user.email, user.password]);
   }
 
+  update(user, updatedUser) {
+    console.log("user", user);
+    console.log("updatedUser", updatedUser);
+    const sql =
+      "UPDATE users SET name = $1, email = $2, password = $3 WHERE email = $4;";
+    return this.queryAuth(sql, [
+      updatedUser.name,
+      updatedUser.email,
+      updatedUser.password,
+      user.email,
+    ]);
+  }
+
+  delete(user) {
+    const sql = "DELETE FROM users WHERE email = $1;";
+    return this.queryAuth(sql, [user.email]);
+  }
+
   /**
    * Busca um usuário no banco de dados pelo email.
    *
