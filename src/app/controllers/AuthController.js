@@ -139,9 +139,14 @@ class AuthController {
 
       await AuthRepository.update(user, updatedUser);
 
-      return response
-        .status(200)
-        .json({ message: "Usuário atualizado com sucesso." });
+      const token = jwt.sign({ email: updatedUser.email }, JWT_SECRET, {
+        expiresIn: JWT_EXPIRATION,
+      });
+
+      return response.status(200).json({
+        message: "Usuário atualizado com sucesso.",
+        token: token,
+      });
     } catch (error) {
       console.error("Erro no método update:", error);
       return response
